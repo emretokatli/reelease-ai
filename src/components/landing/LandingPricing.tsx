@@ -43,6 +43,7 @@ export default function LandingPricing({ data }: { data?: LandingPageData['prici
 
     return {
       id: plan._id || `plan-${index}`,
+      currency: plan.currency,
       name: plan.name,
       icon: index === 0 ? Zap : index === 1 ? Crown : Shield,
       price: {

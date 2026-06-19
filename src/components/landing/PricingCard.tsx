@@ -5,6 +5,7 @@ import { Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PricingCardProps } from '@/types/landing'
+import { currencySymbols } from '@/data/plan'
 
 export function PricingCard({ plan, billingCycle, y, rotateY, rotateZ, scale, opacity, t, onPlanClick }: any) {
   return (
@@ -36,7 +37,7 @@ export function PricingCard({ plan, billingCycle, y, rotateY, rotateZ, scale, op
       </p>
 
       <div className="mb-8 flex items-baseline gap-1">
-        <span className="text-4xl font-bold text-white">${plan.price[billingCycle]}</span>
+        <span className="text-4xl font-bold text-white">{currencySymbols[plan.currency] || '$'}{plan.price[billingCycle]}</span>
         <span className="text-white/30 text-sm">/{billingCycle === 'monthly' ? t('mo') : t('yr')}</span>
       </div>
 

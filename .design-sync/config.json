@@ -6,6 +6,16 @@
   "entry": "./.design-sync/entry.tsx",
   "tsconfig": "tsconfig.json",
   "cssEntry": ".design-sync/compiled.css",
+  "extraEntries": ["./.design-sync/providers.tsx"],
+  "provider": { "component": "DSProvider" },
+  "overrides": {
+    "Dialog": { "cardMode": "single", "viewport": "680x520" },
+    "Popover": { "cardMode": "single", "viewport": "420x340" },
+    "Select": { "cardMode": "single", "viewport": "380x400" },
+    "DropdownMenu": { "cardMode": "single", "viewport": "420x420" },
+    "Tooltip": { "cardMode": "single", "viewport": "360x220" },
+    "Table": { "cardMode": "column" }
+  },
   "componentSrcMap": {
     "Accordion": "src/components/ui/accordion.tsx",
     "Avatar": "src/components/ui/avatar.tsx",
