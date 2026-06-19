@@ -6,6 +6,7 @@
   "entry": "./.design-sync/entry.tsx",
   "tsconfig": "tsconfig.json",
   "cssEntry": ".design-sync/compiled.css",
+  "readmeHeader": ".design-sync/conventions.md",
   "extraEntries": ["./.design-sync/providers.tsx"],
   "provider": { "component": "DSProvider" },
   "overrides": {

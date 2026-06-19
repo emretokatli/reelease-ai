@@ -186,7 +186,7 @@ export default function LandingBlog({ data }: { data?: LandingPageData['blog'] &
                       {t(activePost.excerpt)}
                     </p>
                     <Button className="flex items-center gap-2 bg-white/10 hover:bg-primary! p-0! text-white! font-medium group/btn">
-                      <span className="text-sm">Read Article</span>
+                      <span className="text-sm">{t('read_article')}</span>
                       <div className="rounded-full  flex items-center justify-center transition-colors">
                         <ChevronRight className="w-5 h-5" />
                       </div>

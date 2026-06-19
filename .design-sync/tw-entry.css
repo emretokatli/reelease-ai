@@ -1,0 +1,6 @@
+/* design-sync Tailwind compile entry: pulls in the app's globals.css (tokens,
+   @theme, custom utilities) and registers the DS component + preview sources so
+   the compiled output contains every utility class those files use. */
+@import "../src/app/globals.css";
+@source "../src/components/ui/**/*.{ts,tsx}";
+@source "../.design-sync/previews/**/*.{ts,tsx,jsx}";
