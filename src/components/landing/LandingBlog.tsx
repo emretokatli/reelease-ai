@@ -7,6 +7,7 @@ import { formatDate, getMediaUrl } from '@/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, ChevronRight, FileText } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Autoplay, Pagination } from 'swiper/modules'
@@ -44,6 +45,7 @@ function BlogImage({
 export default function LandingBlog({ data }: { data?: LandingPageData['blog'] & { posts?: BlogPost[] } }) {
   const { t } = useTranslation()
   const { registerRef } = useSectionRefs()
+  const router = useRouter()
   const [activeIndex, setActiveIndex] = useState(0)
   const sectionBadge = data?.badge || t('insights_updates')
   const sectionTitle = data?.title || t('latest_from')
@@ -51,6 +53,7 @@ export default function LandingBlog({ data }: { data?: LandingPageData['blog'] &
 
   const blogPosts: BlogPost[] = (data?.blog_ids || []).map((b: any, index: number) => ({
     id: b._id || index,
+    slug: b.slug,
     title: b.title || 'Untitled Post',
     excerpt: b.description || 'No description available for this pulse of innovation.',
     image: getMediaUrl(b.thumbnail_id?.file_path || b.thumbnail?.file_path || (typeof b.thumbnail_id === 'string' && b.thumbnail_id.length !== 24 ? b.thumbnail_id : '')) || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200',
@@ -142,6 +145,7 @@ export default function LandingBlog({ data }: { data?: LandingPageData['blog'] &
               {/* Main Large Card (Dynamic) */}
               <motion.div
                 layoutId="main-card"
+                onClick={() => activePost?.slug && router.push(`/article/${activePost.slug}`)}
                 className="lg:col-span-8 group relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 h-[500px] md:h-[600px] cursor-pointer"
               >
                 <AnimatePresence mode="wait">
@@ -185,7 +189,7 @@ export default function LandingBlog({ data }: { data?: LandingPageData['blog'] &
                     <p className="text-white/60 text-lg line-clamp-2 text-wrap mb-2">
                       {t(activePost.excerpt)}
                     </p>
-                    <Button className="flex items-center gap-2 bg-white/10 hover:bg-primary! p-0! text-white! font-medium group/btn">
+                    <Button onClick={() => activePost?.slug && router.push(`/article/${activePost.slug}`)} className="flex items-center gap-2 bg-white/10 hover:bg-primary! p-0! text-white! font-medium group/btn">
                       <span className="text-sm">{t('read_article')}</span>
                       <div className="rounded-full  flex items-center justify-center transition-colors">
                         <ChevronRight className="w-5 h-5" />

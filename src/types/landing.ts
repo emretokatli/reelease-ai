@@ -42,6 +42,7 @@ export interface Feature extends BaseFeature {
 
 export interface BlogPost {
   id: string | number
+  slug?: string
   title: string
   excerpt: string
   image: string
