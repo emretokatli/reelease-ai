@@ -134,12 +134,15 @@ export default function LandingFooter({ data }: { data?: LandingPageData['footer
             {data?.copyright || `© ${new Date().getFullYear()} Smart AI Content Generation Suite. ALL RIGHTS RESERVED.`}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
-            <Link href="#" className="text-white/60 hover:text-white transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="#" className="text-white/60 hover:text-white transition-colors">
-              Cookie Policy
-            </Link>
+            {pages.map((page) => (
+              <Link
+                key={page.id || page._id}
+                href={`/p/${page.slug}`}
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                {page.title}
+              </Link>
+            ))}
           </div>
         </div>
       </motion.div>
