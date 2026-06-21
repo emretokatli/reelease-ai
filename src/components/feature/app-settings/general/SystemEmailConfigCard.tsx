@@ -30,8 +30,16 @@ const SystemEmailConfigCard = () => {
       toast.success(response.message || t('test_email_sent_successfully'))
       setTestEmail('')
     } catch (error) {
+      // Surface the real reason: log the full payload and show whatever detail the backend returned.
+      console.error('Send test mail failed:', error)
       const apiError = error as ApiError
-      toast.error(apiError?.data?.message || t('failed_to_send_test_email'))
+      const detail =
+        apiError?.data?.message ||
+        apiError?.data?.error ||
+        apiError?.data?.errors?.join(', ') ||
+        (apiError?.status ? `Request failed (status ${apiError.status})` : '') ||
+        apiError?.message
+      toast.error(detail || t('failed_to_send_test_email'))
     }
   }
 
