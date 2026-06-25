@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/constants/routes'
 import { useDebounce } from '@/hooks/useDebounce'
 import { usePermission } from '@/hooks/usePermission'
+import { useAppSelector } from '@/redux/hooks'
 import { PERMISSIONS } from '@/constants/permissions'
 import { cn } from '@/lib/utils'
 import {
@@ -25,6 +26,11 @@ const RolesPage = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const { hasPermission } = usePermission()
+  const { user } = useAppSelector((state) => state.auth)
+  const isSuperAdmin =
+    user?.role === 'super_admin' ||
+    (user?.roleId as any)?.name === 'super_admin' ||
+    (user?.role as any)?.name === 'super_admin'
   const canCreate = hasPermission(PERMISSIONS.CREATE_ROLES)
   const canUpdate = hasPermission(PERMISSIONS.UPDATE_ROLES)
   const canDelete = hasPermission(PERMISSIONS.DELETE_ROLES)
@@ -106,22 +112,25 @@ const RolesPage = () => {
           <div className="flex items-center gap-2">
             {canUpdate || canDelete ? (
               <>
-                {canUpdate && (
+                {canUpdate && (() => {
+                  const viewOnly = row.system_reserved && !isSuperAdmin
+                  return (
                   <Button
                     variant="ghost"
                     size="icon"
-                    title={row.system_reserved ? t('view_role') : t('edit_role')}
+                    title={viewOnly ? t('view_role') : t('edit_role')}
                     className={cn(
                       "h-8 w-8 transition-all",
-                      row.system_reserved
+                      viewOnly
                         ? "bg-primary/10 text-primary hover:bg-primary hover:text-white"
                         : "bg-primary/10 hover:text-white text-primary hover:bg-primary"
                     )}
                     onClick={() => router.push(`${ROUTES.PERMISSIONS}/edit/${row._id}`)}
                   >
-                    {row.system_reserved ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
+                    {viewOnly ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
                   </Button>
-                )}
+                  )
+                })()}
                 {canDelete && (
                   <Button
                     variant="ghost"

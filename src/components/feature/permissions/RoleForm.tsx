@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch'
 import { ROUTES } from '@/constants/routes'
 import { cn } from '@/lib/utils'
 import { useGetAllPermissionsQuery } from '@/redux/api/roleApi'
+import { useAppSelector } from '@/redux/hooks'
 import { RoleFormProps } from '@/types/permission'
 import { Form, Formik } from 'formik'
 import { ArrowLeft, Check, Loader2, Save, ShieldCheck } from 'lucide-react'
@@ -22,7 +23,14 @@ import PermissionPicker from './PermissionPicker'
 const RoleForm = ({ initialValues, onSubmit, isLoading, mode }: RoleFormProps) => {
   const { t } = useTranslation();
   const router = useRouter()
-  const isReadOnly = initialValues?.system_reserved || false
+  const { user } = useAppSelector((state) => state.auth)
+  const isSuperAdmin =
+    user?.role === 'super_admin' ||
+    (user?.roleId as any)?.name === 'super_admin' ||
+    (user?.role as any)?.name === 'super_admin'
+  // System-reserved roles are read-only for everyone EXCEPT a super_admin user,
+  // who is allowed to make any change.
+  const isReadOnly = (initialValues?.system_reserved && !isSuperAdmin) || false
   const { data: permissionsData, isLoading: isLoadingPermissions } = useGetAllPermissionsQuery()
 
   // Initialize state from initialValues. 
