@@ -38,7 +38,9 @@ export const planApi = baseApi.injectEndpoints({
         params: { status: 'active' },
       }),
       transformResponse: (response: any) => {
-        const data = Array.isArray(response) ? response : []
+        const data = Array.isArray(response)
+          ? response
+          : (response?.data ?? response?.plans ?? [])
         const transformed = data.map((p: any) => ({
           ...p,
           price: p.amount ?? p.price,
